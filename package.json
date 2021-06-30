@@ -1,0 +1,26 @@
+{
+  "name": "danils_bot",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon --watch 'src/**/*.ts' --exec \"ts-node\" src/index.ts"
+  },
+  "dependencies": {
+    "@netlify/functions": "^0.7.2",
+    "dotenv": "^10.0.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^24.3.6",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^6.0.0",
+    "nodemon": "^2.0.9",
+    "prettier": "^2.3.2",
+    "telegraf": "^4.3.0",
+    "telegraf-aws": "^1.0.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^15.12.5"
+  }
+}
