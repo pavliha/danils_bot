@@ -1,4 +1,6 @@
-export const brands = {
+import { Brand } from './types';
+
+export const brands: Record<string, Brand> = {
   columbia: {
     key: 'columbia',
     name: 'Columbia 🏔',

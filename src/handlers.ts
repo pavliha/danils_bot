@@ -11,16 +11,17 @@ export const startHandler = (ctx: Context) =>
 
 export const helpHandler = (ctx: Context) => ctx.reply('При возникновении вопросов свяжитесь с @danilnaprimer');
 
-export const columbiaHandler = (ctx: Context) =>
-  ctx.replyWithPhoto(
-    { url: brands.columbia.imageUrl },
+export const brandHandler = (ctx: Context, brandName: string) => {
+  return ctx.replyWithPhoto(
+    { url: brands[brandName].imageUrl },
     {
       reply_markup: {
-        inline_keyboard: [[{ text: 'Купить', callback_data: 'pay' }]]
+        inline_keyboard: [[{ text: 'Купить', callback_data: `pay:${brandName}` }]]
       },
-      caption: brands.columbia.message
+      caption: brands[brandName].message
     }
   );
+};
 
 export const paymentSuccessHandler = (ctx: Context) =>
   ctx.reply('Оплата прошла успешно. Ваш купон: \n COLU-FPA4-IDQH-QXUE', {
@@ -36,4 +37,6 @@ export const paymentSuccessHandler = (ctx: Context) =>
 
 export const preCheckoutHandler = (ctx: Context) => ctx.answerPreCheckoutQuery(true);
 
-export const payHandler = (ctx: Context) => ctx.replyWithInvoice(createInvoice(ctx.from!.id, brands.columbia));
+export const payHandler = (ctx: Context, brandName: string) => {
+  return ctx.replyWithInvoice(createInvoice(ctx.from!.id, brands[brandName]));
+};
