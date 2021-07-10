@@ -7,11 +7,11 @@ export const createInvoice = (id: number, brand: Brand) => ({
   title: `Купон ${brand.name}`, // Product name, 1-32 characters
   description: 'Скину купон после оплаты', // Product description, 1-255 characters
   currency: 'UAH', // ISO 4217 Three-Letter Currency Code
-  prices: [{ label: `Купон от ${brand.name}`, amount: 10 * 100 }], // Price breakdown, serialized list of components in JSON format 100 kopecks * 100 = 100 rubles
+  prices: [{ label: `Купон от ${brand.name}`, amount: brand.price * 100 }], // Price breakdown, serialized list of components in JSON format 100 kopecks * 100 = 100 rubles
   payload: {
     // The payload of the invoice, as determined by the bot, 1-128 bytes. This will not be visible to the user, use it for your internal processes.
     unique_id: `${id}_${Number(new Date())}`,
     provider_token: process.env.PROVIDER_TOKEN as string,
-    coupon: brand.coupons[0]
+    brandName: brand.key
   } as any
 });
