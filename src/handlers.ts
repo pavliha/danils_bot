@@ -1,6 +1,7 @@
 import { Context } from 'telegraf';
 import { brands } from './data';
 import { createInvoice } from './createInvoice';
+import { Message } from 'telegraf/typings/core/types/typegram';
 
 export const startHandler = (ctx: Context) =>
   ctx.reply('Продам купоны для известных брендов', {
@@ -23,8 +24,11 @@ export const brandHandler = (ctx: Context, brandName: string) => {
   );
 };
 
-export const paymentSuccessHandler = (ctx: Context) =>
-  ctx.reply('Оплата прошла успешно. Ваш купон: \n COLU-FPA4-IDQH-QXUE', {
+export const paymentSuccessHandler = (ctx: Context) => {
+  const message = (ctx.update as any).message as Message.SuccessfulPaymentMessage;
+  const invoicePayloadJson = message.successful_payment.invoice_payload;
+  const { coupon } = JSON.parse(invoicePayloadJson);
+  return ctx.reply(`Оплата прошла успешно. Ваш купон: \n ${coupon}`, {
     reply_markup: {
       inline_keyboard: [
         [
@@ -34,6 +38,7 @@ export const paymentSuccessHandler = (ctx: Context) =>
       ]
     }
   });
+};
 
 export const preCheckoutHandler = (ctx: Context) => ctx.answerPreCheckoutQuery(true);
 

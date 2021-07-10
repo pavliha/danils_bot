@@ -11,6 +11,7 @@ export const createInvoice = (id: number, brand: Brand) => ({
   payload: {
     // The payload of the invoice, as determined by the bot, 1-128 bytes. This will not be visible to the user, use it for your internal processes.
     unique_id: `${id}_${Number(new Date())}`,
-    provider_token: process.env.PROVIDER_TOKEN as string
+    provider_token: process.env.PROVIDER_TOKEN as string,
+    coupon: brand.coupons[0]
   } as any
 });
