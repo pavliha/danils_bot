@@ -37,7 +37,8 @@ export const paymentSuccessHandler = async (ctx: Context) => {
   const brands = await brand.all();
   const coupon = brands[brandName].coupons[0];
   await brand.removeCoupon(brandName, coupon);
-  return ctx.reply(`Оплата прошла успешно. Ваш купон: \n ${coupon}`, {
+  await ctx.reply(`Оплата прошла успешно. Ваш купон:`);
+  return ctx.reply(coupon, {
     reply_markup: {
       inline_keyboard: [
         [
