@@ -5,9 +5,11 @@ import brand from './brand';
 
 export const startHandler = async (ctx: Context) => {
   const brands = await brand.all();
-  return ctx.reply('Продам купоны для известных брендов', {
+  const brandsWithCoupons = Object.values(brands).filter((b) => b.coupons.length);
+  if (brandsWithCoupons.length === 0) return ctx.reply('Купонов больше нет! Приходите позже');
+  return ctx.reply('Какой магазин вас интересует?', {
     reply_markup: {
-      inline_keyboard: [Object.values(brands).map((brand) => ({ text: brand.name, callback_data: brand.key }))]
+      inline_keyboard: [brandsWithCoupons.map((brand) => ({ text: brand.name, callback_data: brand.key }))]
     }
   });
 };
@@ -16,9 +18,9 @@ export const helpHandler = (ctx: Context) => ctx.reply('При возникно�
 
 export const brandHandler = async (ctx: Context, brandName: string) => {
   const brands = await brand.all();
-  if (brands[brandName].coupons.length === 0) {
-    return ctx.reply('Купонов больше нет! Приходите позже');
-  }
+
+  console.log(ctx);
+
   return ctx.replyWithPhoto(
     { url: brands[brandName].imageUrl },
     {
@@ -43,7 +45,7 @@ export const paymentSuccessHandler = async (ctx: Context) => {
       inline_keyboard: [
         [
           { text: 'Купить еще', callback_data: 'start' },
-          { text: 'Поддержка', callback_data: 'help' }
+          { text: 'Помощь', callback_data: 'help' }
         ]
       ]
     }
